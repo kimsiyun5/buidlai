@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, User, Menu, LogOut } from 'lucide-react';
+import { Search, User, Menu, LogOut, Zap } from 'lucide-react';
 import { useNearWallet } from '../contexts/NearWalletContext';
 
 // 지갑 연결 버튼 컴포넌트
@@ -9,7 +9,7 @@ const WalletConnection = () => {
   if (isLoading) {
     return (
       <button 
-        className="bg-[#F8F6E9] px-4 py-1.5 rounded-lg text-sm font-medium border border-gray-300 whitespace-nowrap opacity-75"
+        className="px-4 py-1.5 rounded-lg text-sm font-medium text-white opacity-75"
         disabled
       >
         Loading...
@@ -19,19 +19,19 @@ const WalletConnection = () => {
   
   if (isConnected && accountId) {
     return (
-      <div className="flex items-center space-x-2">
-        <span className="text-xs text-gray-600 hidden sm:inline">
-          {accountId.length > 15 
-            ? `${accountId.substring(0, 7)}...${accountId.substring(accountId.length - 5)}` 
+      <div className="flex items-center space-x-3">
+        <div className="px-4 py-1 rounded-full text-sm font-medium text-white bg-gray-800 border border-gray-700">
+          {accountId.length > 10 
+            ? `${accountId.substring(0, 5)}...${accountId.substring(accountId.length - 5)}` 
             : accountId
           }
-        </span>
+        </div>
         <button 
           onClick={disconnect}
-          className="bg-[#F8F6E9] px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-300 flex items-center space-x-1 hover:bg-[#f2efdd] transition-colors"
+          className="px-3 py-1 rounded-lg text-sm font-medium text-white border border-gray-700 hover:bg-gray-800 transition-colors flex items-center"
         >
-          <LogOut size={14} />
-          <span className="hidden sm:inline">Disconnect</span>
+          <LogOut size={14} className="mr-1" />
+          Disconnect
         </button>
       </div>
     );
@@ -40,44 +40,60 @@ const WalletConnection = () => {
   return (
     <button 
       onClick={connect}
-      className="bg-[#F8F6E9] px-4 py-1.5 rounded-lg text-sm font-medium border border-gray-300 whitespace-nowrap hover:bg-[#f2efdd] transition-colors"
+      className="px-4 py-1.5 rounded-lg text-sm font-medium text-white whitespace-nowrap bg-[#367AF7] hover:bg-[#2864d9] transition-colors"
     >
       Connect Wallet
     </button>
   );
 };
 
-const Header = ({ toggleSidebar }) => {
+const NavItem = ({ text, active, onClick }) => (
+  <div 
+    className={`px-14 py-2 ${active ? 'text-[#F5F9FA]' : 'text-[#454545]'} font-medium mx-6 cursor-pointer`}
+    onClick={onClick}
+  >
+    {text}
+  </div>
+);
+
+const Header = ({ toggleSidebar, activeTab = 'HOME', handleTabChange }) => {
   return (
-    <header className="flex items-center justify-between bg-[#F5F4EE] p-3 px-4 md:px-8 border-b border-gray-200 z-20">
+    <header className="flex items-center justify-between bg-[#1A1A1A] p-3 px-4 md:px-8 border-b border-gray-800 z-20 text-white">
       <div className="flex items-center">
         <button 
-          className="mr-2 p-1 rounded-md border border-gray-300 md:hidden"
+          className="mr-2 p-1 rounded-md border border-gray-700 md:hidden text-white"
           onClick={toggleSidebar}
         >
           <Menu size={20} />
         </button>
         <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center text-white text-sm">N</div>
-          <span className="font-bold">NillSeek</span>
+          <Zap className="text-white" />
+          <span className="font-bold">ZAPTASK.AI</span>
         </div>
       </div>
       
-      <div className="flex-1 px-4 max-w-xl mx-4">
-        <div className="relative w-full">
-          <input
-            type="text"
-            placeholder="Search Network, Keyword, and Ticker"
-            className="w-full py-2 px-4 rounded-full border border-gray-300 bg-white pl-10"
-          />
-          <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
-        </div>
+      <div className="flex items-center">
+        <NavItem 
+          text="HOME" 
+          active={activeTab === 'HOME'} 
+          onClick={() => handleTabChange('HOME')} 
+        />
+        <NavItem 
+          text="EXPLORE" 
+          active={activeTab === 'EXPLORE'} 
+          onClick={() => handleTabChange('EXPLORE')} 
+        />
+        <NavItem 
+          text="MY" 
+          active={activeTab === 'MY'} 
+          onClick={() => handleTabChange('MY')} 
+        />
       </div>
       
       <div className="flex items-center space-x-3">
         <WalletConnection />
-        <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-          <User size={16} className="text-white" />
+        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+          <User size={16} className="text-black" />
         </div>
       </div>
     </header>

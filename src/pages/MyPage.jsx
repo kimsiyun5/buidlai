@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import MainContent from './components/MainContent';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
+import MainContent from '../components/MainContent';
 
-const Web3Homepage = () => {
+const MyPage = () => {
   // 가짜 DB 데이터
   const projectsData = useMemo(() => [
     { 
@@ -131,35 +131,30 @@ const Web3Homepage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#FAF9F5]">
-      {/* Header */}
-      <Header toggleSidebar={toggleSidebar} />
-
-      {/* Body */}
-      <div className="flex flex-1 overflow-hidden bg-[#FAF9F5]">
-        <Sidebar 
-          projectsData={projectsData}
-          sidebarOpen={sidebarOpen}
-          toggleSidebar={toggleSidebar}
-          selectedNetworks={selectedNetworks}
-          toggleNetwork={toggleNetwork}
-          selectedChains={selectedChains}
-          toggleChain={toggleChain}
-          selectedGenres={selectedGenres}
-          toggleGenre={toggleGenre}
-          selectedQuestTypes={selectedQuestTypes}
-          toggleQuestType={toggleQuestType}
-        />
-        
-        <MainContent 
-          projectsData={projectsData}
-          selectedProject={selectedProject}
-          contentFading={contentFading}
-          sidebarOpen={sidebarOpen}
-        />
-      </div>
+    <div className="flex h-full w-full overflow-hidden bg-[#212121]">
+      {/* 이제 이 컴포넌트는 전체 페이지가 아닌 페이지 콘텐츠만 담당합니다 */}
+      <Sidebar 
+        projectsData={projectsData}
+        sidebarOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
+        selectedNetworks={selectedNetworks}
+        toggleNetwork={toggleNetwork}
+        selectedChains={selectedChains}
+        toggleChain={toggleChain}
+        selectedGenres={selectedGenres}
+        toggleGenre={toggleGenre}
+        selectedQuestTypes={selectedQuestTypes}
+        toggleQuestType={toggleQuestType}
+      />
+      
+      <MainContent 
+        projectsData={projectsData}
+        selectedProject={selectedProject}
+        contentFading={contentFading}
+        sidebarOpen={sidebarOpen}
+      />
     </div>
   );
 };
 
-export default Web3Homepage;
+export default MyPage;
