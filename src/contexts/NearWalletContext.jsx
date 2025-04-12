@@ -2,11 +2,18 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
+import { setupSender } from "@near-wallet-selector/sender";
+import { setupMathWallet } from "@near-wallet-selector/math-wallet";
+import { setupNightly } from "@near-wallet-selector/nightly";
+import { setupLedger } from "@near-wallet-selector/ledger";
 import "@near-wallet-selector/modal-ui/styles.css";
 
 // NEAR 설정
 const NETWORK = "testnet";
 const CONTRACT_ID = ""; // 필요한 경우 컨트랙트 ID 추가
+
+// 모달 루트 ID
+const MODAL_ID = "wallet-modal-root";
 
 // 에러 로깅 함수
 const logError = (message, error) => {
@@ -44,9 +51,18 @@ useEffect(() => {
         // Wallet Selector 초기화
         const selector = await setupWalletSelector({
           network: NETWORK,
-          modules: [setupMyNearWallet()],
+          modules: [
+            setupMyNearWallet(),
+            setupSender(),
+            setupMathWallet(),
+            setupNightly(),
+            setupLedger()
+          ],
           debug: false // 프로덕션에서는 false로 설정
         });
+
+        // 전역 접근을 위해 window 객체에 저장 (디버깅 용도)
+        window.selector = selector;
 
         console.log("NEAR Wallet Selector initialized successfully!");
         
@@ -54,9 +70,15 @@ useEffect(() => {
         const modal = setupModal(selector, {
           contractId: CONTRACT_ID,
           description: "NEAR 지갑을 연결하여 블록체인과 상호작용하세요.",
+          title: "NEAR 지갑 연결",
+          theme: "dark",
+          className: "near-wallet-selector-modal",
           containerClassName: "wallet-modal-wrapper",
-          modalContainerId: "wallet-modal-root"
+          modalContainerId: MODAL_ID
         });
+        
+        // 전역 접근을 위해 window 객체에 저장 (디버깅 용도)
+        window.modal = modal;
 
           console.log("NEAR Wallet Modal initialized successfully!");
           
@@ -118,6 +140,14 @@ useEffect(() => {
     
     try {
       console.log("Opening wallet selector modal...");
+      // 모달이 표시되기 전에 DOM에 모달 루트 요소가 있는지 확인
+      if (!document.getElementById(MODAL_ID)) {
+        const modalRoot = document.createElement('div');
+        modalRoot.id = MODAL_ID;
+        document.body.appendChild(modalRoot);
+        console.log(`Created modal root element with ID: ${MODAL_ID}`);
+      }
+      
       modal.show();
     } catch (error) {
       logError("Error showing modal", error);
