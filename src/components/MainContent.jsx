@@ -12,7 +12,7 @@ const MainContent = ({
       {sidebarOpen && <div className="md:hidden mb-4 h-4"></div>}
       
       {/* Quest Section */}
-      <div className="mb-16 bg-[#333333] rounded-lg p-4 shadow-sm border border-gray-700">
+      <div className="mb-16 bg-[#212121] rounded-lg p-4 shadow-sm">
         {selectedProject ? (
           <div className={`transition-all duration-300 ${contentFading ? 'opacity-0 transform translate-y-4' : 'opacity-100 transform translate-y-0'}`}>
             <h2 className="text-xl md:text-2xl font-bold mb-4 select-none text-[#F5F9FA]">
@@ -22,7 +22,7 @@ const MainContent = ({
               {projectsData.find(p => p.id === selectedProject)?.quests.map((quest) => (
                 <div 
                   key={quest.id} 
-                  className={`relative rounded-lg bg-[#444444] shadow-sm flex justify-between items-center border border-gray-700 ${quest.completed ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-gray-600'}`}
+                  className={`relative rounded-lg bg-[#444444] shadow-sm flex justify-between items-center ${quest.completed ? 'border-l-4 border-l-[#367AF7]' : 'border-l-4 border-l-gray-600'}`}
                 >
                   <div className="flex items-center p-3 w-full">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center mr-3">

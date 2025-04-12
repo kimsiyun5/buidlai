@@ -26,7 +26,7 @@ const Sidebar = ({
       
       {/* Sidebar */}
       <div 
-        className={`fixed md:static w-3/4 md:w-1/4 h-screen md:h-full bg-[#212121] p-4 border-r border-gray-700 flex flex-col overflow-y-auto z-10 transition-transform duration-300 transform ${
+        className={`fixed md:static w-3/4 md:w-1/4 h-screen md:h-full bg-[#1A1A1A] p-4 flex flex-col overflow-y-auto z-10 transition-transform duration-300 transform ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
@@ -38,7 +38,7 @@ const Sidebar = ({
         </div>
         
         <div className="mb-4">
-          <h3 className="text-sm font-medium mb-3 select-none text-[#F5F9FA]">Networks you follow</h3>
+          <h3 className="text-sm font-medium mb-3 select-none text-[#F5F9FA]">Networks following</h3>
           <ul className="space-y-1 mb-4">
             {projectsData.map((project) => (
               <li 
